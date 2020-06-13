@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://account-service-db.default.svc.cluster.local/account
+    url: jdbc:postgresql://account-service-db/account
     username: account
     password: account
 
@@ -9,3 +9,11 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: 'create-drop'
+
+  rabbitmq:
+    host: rabbit-service
+
+
+queue:
+  user:
+    name: new-user-queue

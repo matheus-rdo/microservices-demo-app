@@ -1,0 +1,46 @@
+[
+    {
+        "descricao": "Financiamento do carro",
+        "valor": 20000
+    },
+    {
+        "descricao": "Financiamento imobiliário",
+        "valor": 178000
+    },
+    {
+        "descricao": "Empréstimo banco X",
+        "valor": 8000
+    },
+    {
+        "descricao": "Consorcio de veículo",
+        "valor": 20000
+    },
+    {
+        "descricao": "Financiamento do avião",
+        "valor": 2000000
+    },
+    {
+        "descricao": "Aluguel do condomínio",
+        "valor": 800
+    },
+    {
+        "descricao": "Financiamento da moto",
+        "valor": 5000
+    },
+    {
+        "descricao": "Faculdade",
+        "valor": 1200
+    },
+    {
+        "descricao": "Cheque Especial",
+        "valor": 3000
+    },
+    {
+        "descricao": "Empréstimo banco XPTO",
+        "valor": 5000
+    },
+    {
+        "descricao": "Apple Pro Stand",
+        "valor": 8699
+    }
+]

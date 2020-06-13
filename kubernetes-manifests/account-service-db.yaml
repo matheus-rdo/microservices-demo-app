@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-service-db
+spec:
+  selector:
+    matchLabels:
+      app: account-service-db
+  template:
+    metadata:
+      labels:
+        app: account-service-db
+    spec:
+      containers:
+      - name: account-service-db
+        image: postgres:10-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_USER
+            value: account
+          - name: POSTGRES_PASSWORD
+            value: account
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgredb
+      volumes:
+      - name: postgredb
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service-db
+spec:
+  type: LoadBalancer
+  selector:
+    app: account-service-db
+  ports:
+  - name: account-service-db
+    port: 5432
+    targetPort: 5432

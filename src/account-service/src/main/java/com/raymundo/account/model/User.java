@@ -2,6 +2,7 @@ package com.raymundo.account.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,11 @@ import java.io.Serializable;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Tolerate
+	public User(){
+
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
