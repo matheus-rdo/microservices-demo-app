@@ -1,0 +1,20 @@
+<nz-table #basicTable [nzData]="listOfData" [nzLoading]="listOfData == null">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.nome }}</td>
+            <td>{{ data.cpf }}</td>
+            <td>{{ data.endereco }}</td>
+            <td>
+                <a [routerLink]="['/consultar', data.cpf]">Consultar</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
