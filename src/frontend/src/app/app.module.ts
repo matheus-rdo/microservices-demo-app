@@ -13,6 +13,11 @@ import pt from '@angular/common/locales/pt';
 import { ListUsersComponent } from './screens/list-users/list-users.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { ConsultUserComponent } from './screens/consult-user/consult-user.component';
 
 registerLocaleData(pt);
@@ -30,7 +35,12 @@ registerLocaleData(pt);
     HttpClientModule,
     BrowserAnimationsModule,
     NzLayoutModule,
-    NzTableModule
+    NzTableModule,
+    NzGridModule,
+    NzCardModule,
+    NzListModule,
+    NzDescriptionsModule,
+    NzDividerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: pt_BR }],
   bootstrap: [AppComponent]

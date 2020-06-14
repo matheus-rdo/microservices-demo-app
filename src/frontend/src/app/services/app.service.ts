@@ -14,4 +14,8 @@ export class AppService {
   public getUsuarios(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}api/user`)
   }
+
+  public consultarBalancoFinanceiro(cpf): Observable<any> {
+    return this.http.get<any[]>(`${environment.apiUrl}api/balance/${cpf}`)
+  }
 }

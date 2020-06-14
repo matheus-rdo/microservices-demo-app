@@ -1,3 +1,46 @@
-<p>
-    consult-user works!
-</p>
+<h2>Consulta de balanço financeiro</h2>
+
+<div>
+    <nz-descriptions nzTitle="Informações">
+        <nz-descriptions-item nzTitle="Nome">{{balancoFinanceiro?.nome}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Endereço">{{balancoFinanceiro?.endereco}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Remuneração atual">{{balancoFinanceiro?.remuneracao | currency : 'R$' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="4" *ngIf="balancoFinanceiro?.ultimaCompra != null" nzTitle="Última compra">
+            {{balancoFinanceiro?.ultimaCompra.descricao}} no valor de
+            <b>{{balancoFinanceiro?.ultimaCompra.valor | currency : 'R$' }}</b></nz-descriptions-item>
+        <br />
+        <nz-descriptions-item [nzSpan]="2" *ngIf="balancoFinanceiro?.ultimaConsulta != null"
+            nzTitle="Última consulta deste CPF">
+            <b>{{balancoFinanceiro?.ultimaConsulta }}</b></nz-descriptions-item>
+    </nz-descriptions>
+
+    <nz-divider nzText="Balanço patrimonial"></nz-divider>
+    <div nz-row>
+        <div nz-col nzSpan="12">
+
+            <nz-card nzTitle="Lista de bens">
+
+                <nz-list nzBordered>
+                    <nz-list-item *ngFor="let item of balancoFinanceiro?.bens">
+                        <span nz-typography><b>{{item.descricao}}</b></span>
+                        <span style="color: rgba(16, 87, 7, 0.637);">+ {{ item.valor | currency : 'R$' }}</span>
+                    </nz-list-item>
+                </nz-list>
+
+            </nz-card>
+
+        </div>
+        <div nz-col nzSpan="12">
+            <nz-card nzTitle="Lista de dívidas">
+                <nz-list nzBordered>
+                    <nz-list-item *ngFor="let item of balancoFinanceiro?.dividas">
+                        <span nz-typography><b>{{item.descricao}}</b></span>
+                        <span style="color: rgba(219, 41, 17, 0.7);">- {{ item.valor | currency : 'R$' }}</span>
+                    </nz-list-item>
+                </nz-list>
+
+            </nz-card>
+        </div>
+    </div>
+</div>
