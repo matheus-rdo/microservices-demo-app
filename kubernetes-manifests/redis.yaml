@@ -43,7 +43,7 @@ kind: Service
 metadata:
   name: redis
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: redis
   ports:

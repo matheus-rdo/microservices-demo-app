@@ -9,12 +9,16 @@ const cors = require('cors')
 const { AppError } = require('./utils')
 const amqpclient = require('./components/amqp-client')
 const balanceDAO = require('./components/balance/balanceDAO')
+const balanceApi = require('./components/balance/balanceAPI')
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
+
+//Module API's
+app.use('/api/balance', balanceApi)
 
 
 const errorHandler = (err, req, res, next) => {
@@ -26,9 +30,8 @@ const errorHandler = (err, req, res, next) => {
 }
 app.use(errorHandler)
 
-// Callback da fila de criação de usuários
-amqpclient.start(msg => balanceDAO.createUserBalance(JSON.parse(msg.content)))
 
-app.listen(3000, () => {
-    console.log(`Server started and listening on port 3000`)
-})
+// Application init
+app.listen(3000, () => console.log(`Server started and listening on port 3000`))
+balanceDAO.initialize()
+amqpclient.start(msg => balanceDAO.createUserBalance(JSON.parse(msg.content)))

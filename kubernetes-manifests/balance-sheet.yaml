@@ -24,6 +24,8 @@ spec:
             value: rabbit-service
           - name: DATABASE_HOST
             value: balance-mongodb
+          - name: REDIS_HOST
+            value: redis
         resources:
           requests:
             cpu: 200m
@@ -37,7 +39,7 @@ kind: Service
 metadata:
   name: balancesheet
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: balancesheet
   ports:

@@ -17,7 +17,7 @@ function start(onMessageCallback) {
             console.error("[AMQP] reconnecting");
             return setTimeout(start, 1000);
         });
-        console.log("[AMQP] connected");
+        console.log("[AMQP] Connected");
 
 
         function startWorker() {
@@ -35,7 +35,7 @@ function start(onMessageCallback) {
                     onMessageCallback(msg)
                     ch.ack(msg)
                 }, { noAck: false });
-                console.log("[AMQP] Worker is started");
+                console.log("[AMQP] Worker started");
             });
         }
 
