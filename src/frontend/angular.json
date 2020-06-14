@@ -59,7 +59,9 @@
               "src/theme.less",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./src/assets/env.js"
+            ]
           },
           "configurations": {
             "production": {
