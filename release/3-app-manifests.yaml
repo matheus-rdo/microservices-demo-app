@@ -1,0 +1,282 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-service-db
+spec:
+  selector:
+    matchLabels:
+      app: account-service-db
+  template:
+    metadata:
+      labels:
+        app: account-service-db
+    spec:
+      containers:
+      - name: account-service-db
+        image: postgres:10-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_USER
+            value: account
+          - name: POSTGRES_PASSWORD
+            value: account
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgredb
+      volumes:
+      - name: postgredb
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service-db
+spec:
+  type: ClusterIP
+  selector:
+    app: account-service-db
+  ports:
+  - name: account-service-db
+    port: 5432
+    targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accountservice
+spec:
+  selector:
+    matchLabels:
+      app: accountservice
+  template:
+    metadata:
+      labels:
+        app: accountservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: server
+        image: mhraymundo/demo-app-account-service
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
+            memory: 180Mi
+          limits:
+            cpu: 300m
+            memory: 300Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accountservice
+spec:
+  type: ClusterIP
+  selector:
+    app: accountservice
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: panel-admin-mongo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: panel-admin-mongo
+  template:
+    metadata:
+      labels:
+        component: panel-admin-mongo
+    spec:
+      volumes:
+        - name: panel-admin-mongo-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: panel-admin-mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: panel-admin-mongo-storage
+              mountPath: /data/db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: balance-mongodb
+spec:
+  type: ClusterIP
+  selector:
+    component: panel-admin-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-persistent-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  serviceName: rabbitmq
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3-management
+        env:
+        - name: "RABBITMQ_ERLANG_COOKIE"
+          value: "1WqgH8N2v1qDBDZDbNy8Bg9IkPWLEpu79m6q+0t36lQ="
+        volumeMounts:
+        - mountPath: /var/lib/rabbitmq
+          name: rabbitmq-data
+      volumes:
+        - name: rabbitmq-data
+          hostPath:
+            path: /data/rabbitmq
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-service
+spec:
+  selector:
+    app: rabbitmq
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: 5672
+      name: amqp
+      protocol: TCP
+    - port: 15672
+      name: http  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+        readinessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        livenessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 125m
+          requests:
+            cpu: 70m
+            memory: 200Mi
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  type: ClusterIP
+  selector:
+    app: redis
+  ports:
+  - name: redis
+    port: 6379
+    targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: balancesheet
+spec:
+  selector:
+    matchLabels:
+      app: balancesheet
+  template:
+    metadata:
+      labels:
+        app: balancesheet
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: server
+        image: mhraymundo/demo-app-balance-sheet:demo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+          - name: ENV
+            value: production
+          - name: USER_QUEUE_HOST
+            value: rabbit-service
+          - name: DATABASE_HOST
+            value: balance-mongodb
+          - name: REDIS_HOST
+            value: redis
+        resources:
+          requests:
+            cpu: 200m
+            memory: 180Mi
+          limits:
+            cpu: 300m
+            memory: 300Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: balancesheet
+spec:
+  type: ClusterIP
+  selector:
+    app: balancesheet
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
