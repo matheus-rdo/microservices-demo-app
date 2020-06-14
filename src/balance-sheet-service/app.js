@@ -34,4 +34,4 @@ app.use(errorHandler)
 // Application init
 app.listen(3000, () => console.log(`Server started and listening on port 3000`))
 balanceDAO.initialize()
-amqpclient.start(msg => balanceDAO.createUserBalance(JSON.parse(msg.content)))
+amqpclient.start()

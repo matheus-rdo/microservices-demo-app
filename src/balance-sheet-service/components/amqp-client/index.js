@@ -1,7 +1,8 @@
 var amqp = require('amqplib/callback_api');
 const CONN_URL = `amqp://${process.env.USER_QUEUE_HOST}`
+const balanceDAO = require('../../components/balance/balanceDAO')
 
-function start(onMessageCallback) {
+function start() {
     console.log('[AMQP] Connecting to ' + CONN_URL)
     amqp.connect(CONN_URL, function (err, conn) {
         if (err) {
@@ -30,9 +31,11 @@ function start(onMessageCallback) {
                     console.log("[AMQP] channel closed");
                 });
 
+                ch.assertQueue('new-user-queue')
+
                 ch.consume("new-user-queue", (msg) => {
                     console.log('[AMQP] - User created message received')
-                    onMessageCallback(msg)
+                    balanceDAO.createUserBalance(JSON.parse(msg.content))
                     ch.ack(msg)
                 }, { noAck: false });
                 console.log("[AMQP] Worker started");
