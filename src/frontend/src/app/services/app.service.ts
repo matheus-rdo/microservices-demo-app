@@ -18,4 +18,8 @@ export class AppService {
   public consultarBalancoFinanceiro(cpf): Observable<any> {
     return this.http.get<any[]>(`${environment.apiUrl}api/balance/${cpf}`)
   }
+
+  public cadastrar(usuario): Observable<any> {
+    return this.http.post(`${environment.apiUrl}api/user`, usuario);
+  }
 }

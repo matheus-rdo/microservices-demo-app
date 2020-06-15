@@ -1,0 +1,13 @@
+.block {
+    width: 100px;
+    height: 100px;
+    background-color: grey;
+}
+
+input {
+    width: 100%;
+}
+
+form {
+    max-width: 600px;
+}

@@ -1,3 +1,11 @@
+<h2>Bem vindo ao Credit Score!</h2>
+<h4>Faça sua análise de crédito</h4>
+
+<div class="options">
+    <button nz-button nzType="primary" [routerLink]="['/usuario/novo']">Cadastrar pessoa</button>
+</div>
+
+
 <nz-table #basicTable [nzData]="listOfData" [nzLoading]="listOfData == null">
     <thead>
         <tr>

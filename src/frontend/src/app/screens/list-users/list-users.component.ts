@@ -4,8 +4,7 @@ import { AppService } from 'src/app/services/app.service';
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
-  styles: [
-  ]
+  styleUrls: ['./list-users.component.css']
 })
 export class ListUsersComponent implements OnInit {
 

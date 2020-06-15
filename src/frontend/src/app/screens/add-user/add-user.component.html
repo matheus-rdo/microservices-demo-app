@@ -1,0 +1,39 @@
+<h2>Cadastro</h2>
+
+<br />
+
+<form nz-form [formGroup]="userForm" (ngSubmit)="submitForm()">
+
+
+    <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="cpf">CPF</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor insira seu CPF!" [nzXs]="24">
+            <input nz-input formControlName="cpf" mask="000.000.000-00" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nome">Nome</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor insira seu nome!">
+            <input nz-input formControlName="nome" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="endereco">Endereço</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor insira seu endereço!">
+            <input nz-input formControlName="endereco" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remuneracao">Remuneração</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor insira sua remuneração atual!">
+            <nz-input-number style="width: 100%;" [nzMin]="0" formControlName="remuneracao"></nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+
+    <br />
+    <button nz-button [nzType]="'primary'">Cadastrar</button>
+
+</form>
