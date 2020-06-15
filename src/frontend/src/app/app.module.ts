@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { pt_BR } from 'ng-zorro-antd/i18n';
@@ -25,6 +25,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { ConsultUserComponent } from './screens/consult-user/consult-user.component';
 import { AddUserComponent } from './screens/add-user/add-user.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { EnvServiceProvider } from './env.service.provider';
+import { UrlInterceptor } from './interceptors/url.interceptor';
 
 const maskConfig: Partial<IConfig> = {
   validation: true,
@@ -60,7 +62,10 @@ registerLocaleData(pt);
     NzInputNumberModule,
     NzFormModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: pt_BR }],
+  providers: [
+    EnvServiceProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },
+    { provide: NZ_I18N, useValue: pt_BR }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

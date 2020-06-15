@@ -12,14 +12,14 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   public getUsuarios(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}api/user`)
+    return this.http.get<any[]>(`api/user`)
   }
 
   public consultarBalancoFinanceiro(cpf): Observable<any> {
-    return this.http.get<any[]>(`${environment.apiUrl}api/balance/${cpf}`)
+    return this.http.get<any[]>(`api/balance/${cpf}`)
   }
 
   public cadastrar(usuario): Observable<any> {
-    return this.http.post(`${environment.apiUrl}api/user`, usuario);
+    return this.http.post(`api/user`, usuario);
   }
 }
