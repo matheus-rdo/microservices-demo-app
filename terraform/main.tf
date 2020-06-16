@@ -25,6 +25,13 @@ resource "google_container_node_pool" "default" {
   cluster    = google_container_cluster.default.name
   node_count = 2
 
+  node_locations = [
+    "us-central1-a",
+    "us-central1-b",
+    "us-central1-c",
+    "us-central1-f",
+  ]
+
   node_config {
     preemptible  = true
     machine_type = var.machine_type

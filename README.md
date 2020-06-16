@@ -6,12 +6,12 @@ Aplicação demo para microsserviços
 
 
 ### Tecnologias adotadas
-**Docker**
-**Google Cloud Platform** - provedor de nuvem
-**Terraform** - ferramenta de provisionamento de infraestrutura
-**Kubernetes** - orquestrador de contêineres
-**Istio** - Service Mesh
-**Skaffold** - Automação de build/push/deployment em ambiente de desenvolvimento
+**Docker**  
+**Google Cloud Platform** - provedor de nuvem  
+**Terraform** - ferramenta de provisionamento de infraestrutura  
+**Kubernetes** - orquestrador de contêineres  
+**Istio** - Service Mesh  
+**Skaffold** - Automação de build/push/deployment em ambiente de desenvolvimento  
 
 
 ### Serviços
@@ -32,8 +32,8 @@ Pré-requisitos:
 
 1. Realizar autenticação  
 `gcloud auth login`  
-2. Provisionar a infraestrutura via código. No diretório [terraform](./terraform), aplicar os seguintes comandos:
-`terraform plan` - revise as alterações que serão feitas
+2. Provisionar a infraestrutura via código. No diretório [terraform](./terraform), aplicar os seguintes comandos:  
+`terraform plan` - revise as alterações que serão feitas  
 `terraform apply` - confirmação
 3. Com o ambiente provisionado, autentique no Cluster e aplique sequencialmente os manifestos kubernetes do diretório [release](./release)
     > Ao aplicar o manifesto `2-istio-install.yaml`, aguardar até que o container `istiod` seja instanciado.
