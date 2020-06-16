@@ -33,10 +33,14 @@ function start() {
 
                 ch.assertQueue('new-user-queue')
 
-                ch.consume("new-user-queue", (msg) => {
+                ch.consume("new-user-queue", async (msg) => {
                     console.log('[AMQP] - User created message received')
-                    balanceDAO.createUserBalance(JSON.parse(msg.content))
-                    ch.ack(msg)
+                    try {
+                        await balanceDAO.createUserBalance(JSON.parse(msg.content))
+                        ch.ack(msg)
+                    } catch (error) {
+                        console.log('[AMQP] - Failed to proccess message')
+                    }
                 }, { noAck: false });
                 console.log("[AMQP] Worker started");
             });
