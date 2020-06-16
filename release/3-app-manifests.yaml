@@ -58,7 +58,8 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: mhraymundo/demo-app-account-service
+        image: mhraymundo/demo-app-account-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
@@ -280,3 +281,46 @@ spec:
   - name: http
     port: 80
     targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: server
+        image: mhraymundo/demo-app-frontend
+        ports:
+        - containerPort: 80
+        env:
+          - name: URL_API
+            value: "http://10.109.200.114:15032/" # Editar para a URL do Load Balancer do Ingress Gateway
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
