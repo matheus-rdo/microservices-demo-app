@@ -1,22 +1,13 @@
 # Credit score
 Aplicação demo para microsserviços
 
-## Arquitetura
-
-
-
-### Tecnologias adotadas
-**Docker**  
-**Google Cloud Platform** - provedor de nuvem  
-**Terraform** - ferramenta de provisionamento de infraestrutura  
-**Kubernetes** - orquestrador de contêineres  
-**Istio** - Service Mesh  
-**Skaffold** - Automação de build/push/deployment em ambiente de desenvolvimento  
-
-
-### Serviços
-
-A aplicação foi desenvolvida com 3 serviços que se comunicam entre si
+## Arquitetura dos serviços  
+  
+A aplicação foi desenvolvida com 3 serviços que se comunicam entre si  
+  
+  
+[![Architecture](./docs/images/architecture.png)](./docs/images/architecture.png)  
+  
 
 | Serviço   | Linguagem | Descrição
 | --------- | ----------| ---------
@@ -24,7 +15,17 @@ A aplicação foi desenvolvida com 3 serviços que se comunicam entre si
 [balance-sheet-service](./src/balance-sheet-service) |Node.js|Responsável por manter as informaçoes do balanço patrimonial dos usuarios, além de fazer caching dos dados da ultima compra e ultima consulta do CPF. Para acelerar o desenvolvimento, os bens e as dívidas do usuário são auto-gerados de forma aleatória.
 [frontend](./src/frontend) |Angular 9|Expõe web server com as páginas da aplicação.
 
-### Deploy
+
+## Tecnologias adotadas
+- **Docker**  
+- **Google Cloud Platform** - provedor de nuvem  
+- **Terraform** - ferramenta de provisionamento de infraestrutura  
+- **Kubernetes** - orquestrador de contêineres  
+- **Istio** - Service Mesh  
+- **Skaffold** - Automação de build/push/deployment em ambiente de desenvolvimento  
+
+
+### Deploy no Google Cloud
 
 Pré-requisitos:
 - [Google Cloud SDK](https://cloud.google.com/sdk/install)
@@ -40,7 +41,7 @@ Pré-requisitos:
 4. Pronto! ;) - acesse a aplicação através do endereço público do Istio Ingress Gateway  
 `kubectl get svc istio-ingressgateway -n istio-system`
 
-### Desenvolvimento
+### Desenvolver localmente
 
 #### Pré-requisitos
 
@@ -48,7 +49,7 @@ Pré-requisitos:
 - [Minikube](https://kubernetes.io/docs/setup/minikube/)
 - [Skaffold]( https://skaffold.dev/docs/install/)
 
-#### Desenvolver localmente (Minikube)
+
 1. Instanciar o cluster c/ as configurações recomendadas  
 `minikube start --cpus=4 --memory 6GiB --disk-size 32g`
 2. Habilitar o NGINX Ingress controller (Minikube Addon)  
