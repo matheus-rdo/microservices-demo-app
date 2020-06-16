@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: accountservice
+  name: frontend
 spec:
   selector:
     matchLabels:
-      app: accountservice
+      app: frontend
   template:
     metadata:
       labels:
-        app: accountservice
+        app: frontend
     spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: accountservice
+        image: frontend
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         resources:
           requests:
-            cpu: 200m
-            memory: 180Mi
+            cpu: 100m
+            memory: 100Mi
           limits:
-            cpu: 300m
-            memory: 300Mi
+            cpu: 200m
+            memory: 200Mi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: accountservice
+  name: frontend
 spec:
   type: LoadBalancer
   selector:
-    app: accountservice
+    app: frontend
   ports:
   - name: http
     port: 80
-    targetPort: 8080
+    targetPort: 80

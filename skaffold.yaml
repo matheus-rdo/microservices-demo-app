@@ -5,15 +5,12 @@ metadata:
 build:
   artifacts:
   - image: accountservice
-    context: src/account-service  
+    context: src/account-service    
   - image: balancesheet
     context: src/balance-sheet-service
+  - image: frontend
+    context: src/frontend    
 deploy:
   kubectl:
     manifests:
-    - kubernetes-manifests/account-service-db.yaml
-    - kubernetes-manifests/account-service.yaml
-    - kubernetes-manifests/balance-sheet.yaml
-    - kubernetes-manifests/balance-sheet-db.yaml
-    - kubernetes-manifests/redis.yaml
-    - kubernetes-manifests/rabbit-mq.yaml
+    - ./kubernetes-manifests/**.yaml
