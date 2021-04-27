@@ -16,7 +16,7 @@
     "express": "~4.16.0",
     "moment": "^2.26.0",
     "mongodb": "^3.5.9",
-    "redis": "^3.0.2"
+    "redis": "^3.1.1"
   },
   "author": "Matheus.Raymundo",
   "license": "ISC"
